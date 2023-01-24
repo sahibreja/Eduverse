@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1069117887897",
+    "project_id": "eduverse-11898",
+    "storage_bucket": "eduverse-11898.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069117887897:android:abc8eca52ff0424a0b2f08",
+        "android_client_info": {
+          "package_name": "com.example.dsatutor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069117887897-hon2mfe35e21ghtud5nl1t0uggm0enb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTKWuaL0ItbHg-QJTlGp7YtDg9f1Y0ozo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069117887897-hon2mfe35e21ghtud5nl1t0uggm0enb2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
