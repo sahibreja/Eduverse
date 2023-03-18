@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Dashboard.Learning.L1Activity"
+    android:background="#E8EDB5">
+
+   <RelativeLayout
+       android:id="@+id/layout1"
+       android:layout_width="match_parent"
+       android:layout_height="80dp"
+       >
+       <TextView
+           android:id="@+id/prerequisite_txt"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Prerequisite"
+           android:layout_marginTop="10dp"
+           android:layout_marginLeft="10dp"
+           android:textSize="18sp"
+           android:fontFamily="@font/baloo"
+           android:textColor="@color/white"
+           android:background="@drawable/learning_bg_1"
+           android:gravity="center_vertical"
+           android:paddingLeft="10dp"/>
+
+
+   </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout1"
+        app:cardCornerRadius="30dp"
+        android:layout_marginBottom="-30dp"
+        >
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_marginBottom="30dp">
+
+           <TextView
+               android:id="@+id/course_content"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerHorizontal="true"
+               android:layout_marginTop="10dp"
+               android:text="Course Content"
+               android:textColor="@color/black"
+               android:textSize="18sp"
+               android:fontFamily="@font/baloo"/>
+
+          <LinearLayout
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_below="@id/course_content"
+              android:weightSum="2"
+              android:orientation="horizontal">
+
+              <LinearLayout
+                  android:layout_weight="1"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@drawable/learning_bg2">
+
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:layout_marginTop="10dp"
+                      android:id="@+id/chapter_recycler"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginLeft="10dp"
+                      android:orientation="horizontal"
+
+                      />
+
+              </LinearLayout>
+
+              <LinearLayout
+
+                  android:layout_weight="1"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@drawable/learning_bg2">
+
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:layout_marginTop="10dp"
+                      android:layout_marginStart="8dp"
+                      android:layout_marginEnd="8dp"
+                      android:id="@+id/sub_chapter_recycler"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginLeft="10dp"
+                      android:orientation="horizontal"
+
+                      />
+
+              </LinearLayout>
+
+          </LinearLayout>
+
+
+           <ImageView
+               android:id="@+id/home_btn"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:src="@drawable/home_btn_bg"
+               android:layout_alignParentBottom="true"
+               android:layout_marginLeft="15dp"
+               android:layout_marginBottom="15dp"/>
+
+           <ImageView
+               android:id="@+id/back_btn"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:src="@drawable/exitb_btn_bg"
+               android:layout_alignParentBottom="true"
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="15dp"
+               android:layout_marginBottom="15dp"/>
+
+       </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</RelativeLayout>

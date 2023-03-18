@@ -1,6 +1,5 @@
 package com.example.dsatutor.UI;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,21 +9,23 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
+import com.example.dsatutor.MainActivity;
+import com.example.dsatutor.Model.PrefManager;
 import com.example.dsatutor.R;
 import com.example.dsatutor.UI.start.Intro.IntroVideoActivity;
 import com.example.dsatutor.UI.start.authentication.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreenActivity extends AppCompatActivity {
     //private VideoView view;
     private int currentApiVersion;
+    private FirebaseAuth auth;
+    private PrefManager prefManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setScreenType();
         setContentView(R.layout.activity_splash_screen_1);
 
-        //init();
+        init();
         VideoView view = (VideoView)findViewById(R.id.video_view);
         String path = "android.resource://" + getPackageName() + "/" + R.raw.intro_video;
         view.setVideoURI(Uri.parse(path));
@@ -47,17 +48,39 @@ public class SplashScreenActivity extends AppCompatActivity {
       new Handler().postDelayed(new Runnable() {
           @Override
           public void run() {
+              FirebaseUser currentUser = auth.getCurrentUser();
+              if(currentUser != null && !prefManager.isFirstTimeLaunch()){
+
+                  startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                  finish();
+
+              }else
+              {
+                  if(currentUser==null)
+                  {
+                      startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                      overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                      finish();
+                  }else
+                  {
+                      startActivity(new Intent(SplashScreenActivity.this,IntroVideoActivity.class));
+                      overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                      finish();
+                  }
+
+              }
 
 
-            startActivity(new Intent(SplashScreenActivity.this, IntroVideoActivity.class));
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            finish();
           }
       },5900);
     }
     private void init()
     {
         //view=findViewById(R.id.video);
+
+        auth = FirebaseAuth.getInstance();
+        prefManager= new PrefManager(SplashScreenActivity.this,"Game");
 
 
     }

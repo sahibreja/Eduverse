@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "1069117887897",
-    "project_id": "eduverse-11898",
-    "storage_bucket": "eduverse-11898.appspot.com"
+    "project_number": "1018166695203",
+    "project_id": "eduverse-ba5b3",
+    "storage_bucket": "eduverse-ba5b3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069117887897:android:abc8eca52ff0424a0b2f08",
+        "mobilesdk_app_id": "1:1018166695203:android:1833ca7f79a03d70c9a896",
         "android_client_info": {
           "package_name": "com.example.dsatutor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1069117887897-hon2mfe35e21ghtud5nl1t0uggm0enb2.apps.googleusercontent.com",
+          "client_id": "1018166695203-bjju69feptpggq3h6rf1l4dtrm201vqj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dsatutor",
+            "certificate_hash": "e942e2df97d07b234dfef22d237b7d7f610439d2"
+          }
+        },
+        {
+          "client_id": "1018166695203-orfjgtd1g94vo3p2cpijhuss5lnqeqag.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTKWuaL0ItbHg-QJTlGp7YtDg9f1Y0ozo"
+          "current_key": "AIzaSyCUtOh41MBo2qQ3rx9rzGKzON80Scii1fA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1069117887897-hon2mfe35e21ghtud5nl1t0uggm0enb2.apps.googleusercontent.com",
+              "client_id": "1018166695203-orfjgtd1g94vo3p2cpijhuss5lnqeqag.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

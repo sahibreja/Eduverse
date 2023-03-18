@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START"/>
+        </intent>
+    </queries>
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,17 +22,37 @@
         android:theme="@style/Theme.DSATutor"
         tools:targetApi="31">
         <activity
+            android:name=".UI.Dashboard.Learning.YoutubeActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"/>
+        <activity
+            android:name=".UI.Game.QuizActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".UI.Level.Level1Activity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".UI.Dashboard.Learning.L2Activity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".UI.Dashboard.Learning.L1Activity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".UI.Dashboard.LearningActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".UI.start.Intro.IntroVideoActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
-
-
-
-        </activity>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".UI.start.authentication.SignUpActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -33,7 +60,7 @@
         <activity
             android:name=".UI.start.authentication.LoginActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -48,22 +75,21 @@
         <activity
             android:name=".UI.start.CollegeLogoActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
         <activity
             android:name=".UI.SplashScreenActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -71,7 +97,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

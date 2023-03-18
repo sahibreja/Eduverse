@@ -4,9 +4,11 @@
     <item android:state_pressed="false">
         <shape>
             <stroke android:color="#2B0B09"
-                android:width="4dp"
+                android:width="1dp"
                 />
-
+            <solid
+                android:color="@color/white"/>
+            <corners android:radius="15dp"/>
         </shape>
     </item>
 

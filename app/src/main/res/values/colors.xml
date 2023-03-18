@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#F4CECE</color>
     <color name="bg">#83F4CECE</color>
+    <color name="selected_color">#4CAF50</color>
+    <color name="default_color">#635757</color>
 </resources>

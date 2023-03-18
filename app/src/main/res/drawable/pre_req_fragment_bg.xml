@@ -3,16 +3,16 @@
 
     <item android:state_pressed="false">
         <shape>
-            <stroke android:color="#2B0B09"
+            <stroke android:color="@color/teal_200"
                 android:width="4dp"
                 />
             <corners
-                android:topLeftRadius="7dp"
-                android:topRightRadius="7dp"
-                android:bottomLeftRadius="7dp"
-                android:bottomRightRadius="7dp"/>
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:bottomRightRadius="30dp"/>
             <solid
-                android:color="#DDFFFFFF"/>
+                android:color="#030D42"/>
 
         </shape>
 

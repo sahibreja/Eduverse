@@ -27,12 +27,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-database:20.1.0'
@@ -53,5 +56,24 @@ dependencies {
     //circular image
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //popup
+
+
+    //room database
+    def room_version = "2.5.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    //explosion
+    implementation 'me.samlss:bloom:1.0.0'
+
+
+    //youtube view
+    //implementation 'com.google.android.youtube:youtube-android-player-api:10.0.1'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+
+
 
 }

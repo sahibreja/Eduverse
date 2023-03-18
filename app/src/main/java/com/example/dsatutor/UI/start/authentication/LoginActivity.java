@@ -2,35 +2,65 @@ package com.example.dsatutor.UI.start.authentication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
+import com.example.dsatutor.Database.GameDatabase;
 import com.example.dsatutor.MainActivity;
+import com.example.dsatutor.Model.DAO.UsersDao;
+import com.example.dsatutor.Model.PrefManager;
+import com.example.dsatutor.Model.Users;
 import com.example.dsatutor.R;
+import com.example.dsatutor.UI.SplashScreenActivity;
+import com.example.dsatutor.UI.start.Intro.IntroVideoActivity;
 import com.example.dsatutor.UI.start.LandingPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText email,pass;
+    private EditText email;
+    private TextInputEditText pass;
     private TextView newUser,forgotPass;
     private Button loginBtn;
 
     private FirebaseAuth auth;
 
     private FirebaseDatabase database;
+
+    private ProgressDialog progressDialog,progressForgot;
+
+    private GameDatabase gameDatabase;
+    private UsersDao usersDao;
+    private int fLives,fTotalScore,fCurrentLevel;
+    private long fLastRefillTime;
+    private float fProgress;
+    private String userName;
+    private String userId;
+    private PrefManager prefManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         newUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                heartTouchEffect(v);
                 startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
@@ -57,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                heartTouchEffect(v);
                 String userEmail = email.getText().toString().trim();
                 String userPassword = pass.getText().toString();
                 if(userEmail.isEmpty())
@@ -67,14 +99,18 @@ public class LoginActivity extends AppCompatActivity {
                     pass.setError("Please Enter Your Password");
                 }else
                 {
+                    progressDialog.show();
                     auth.signInWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(LoginActivity.this, "Successfully Login", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
+                                    prefManager.setFirstTimeLaunch(false);
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finishAffinity();
+
                             }else
                             {
                                 Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -88,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                heartTouchEffect(v);
                 String emailTxt=email.getText().toString().trim();
                 if(emailTxt.isEmpty())
                 {
@@ -118,8 +155,23 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-    }
+        prefManager= new PrefManager(LoginActivity.this,"Game");
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressForgot=new ProgressDialog(LoginActivity.this);
+        progressDialog.setTitle("Login");
+        progressDialog.setMessage("Login to your account");
+        progressForgot.setTitle("Forgot password");
+        progressForgot.setMessage("Sending link to your email to reset your password");
 
+        gameDatabase= Room.databaseBuilder(LoginActivity.this,
+                GameDatabase.class, "game_database").allowMainThreadQueries().build();
+        usersDao= gameDatabase.userDao();
+    }
+    private void heartTouchEffect(View view)
+    {
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale);
+        view.startAnimation(anim);
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -127,8 +179,13 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
             //reload();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, IntroVideoActivity.class));
             finish();
         }
     }
+    private void getValue(String uid)
+    {
+
+    }
+
 }

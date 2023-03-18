@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="9dp">
+        <LinearLayout
+            android:id="@+id/background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/leaderboard_normal">
+            <TextView
+                android:id="@+id/rank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/abril_fatface"
+                android:background="@drawable/leaderboard_rank_bg"/>
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="User Name"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:fontFamily="@font/aclonica"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_marginRight="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="277"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:fontFamily="@font/aclonica"
+                android:textSize="20sp"
+                />
+        </LinearLayout>
+
+
+
+
+
+
+    </RelativeLayout>
+
+</FrameLayout>
