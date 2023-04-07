@@ -2,4 +2,12 @@
     <string name="app_name">EduVerse</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="mission_txt"><![CDATA[1.To gradually progress and challenge players while providing an engaging and entertaining gameplay experience.\n2.Motivate players to learn more about data structures and improve their skills.
+    ]]>
+    </string>
+
+    <string name="vision_txt"><![CDATA[1.To provide gaming experience that incorporates elements of problem solving and skill building.\n2.This game would offer a unique and rewarding gaming experience that combines intellectual challenge with exciting and engaging gameplay.
+    ]]>
+    </string>
 </resources>

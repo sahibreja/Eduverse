@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dsatutor.Model.Compare;
-import com.example.dsatutor.Model.Users;
+import com.example.dsatutor.Model.ModelClass.Users;
 import com.example.dsatutor.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -47,6 +47,8 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Collections.sort(usersArrayList, new Compare());
+
+
         if(getItemViewType(position)==0)
         {
             if(usersArrayList.get(position).getUserId().equals(Objects.requireNonNull(auth.getCurrentUser()).getUid()))

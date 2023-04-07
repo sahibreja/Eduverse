@@ -9,8 +9,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
 import com.example.dsatutor.UI.Dashboard.Learning.L1Activity;
 import com.example.dsatutor.UI.Dashboard.Learning.L2Activity;
@@ -28,6 +31,7 @@ public class LearningActivity extends AppCompatActivity {
     ActivityLearningBinding binding;
     private FirebaseAuth auth;
     private FirebaseDatabase firebaseDatabase;
+    private Sound sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,30 +41,36 @@ public class LearningActivity extends AppCompatActivity {
         }
         setScreenType();
         binding=ActivityLearningBinding.inflate(getLayoutInflater());
-        View view=binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
 
         init();
         ButtonClick();
     }
-
+    private void heartTouchEffect(View view) {
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale);
+        view.startAnimation(anim);
+    }
     private void ButtonClick() {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                heartTouchEffect(view);
+                sound.playClickSound();
                 finish();
             }
         });
-        l1.setOnClickListener(new View.OnClickListener() {
+        binding.learn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sound.playClickSound();
                 startActivity(new Intent(LearningActivity.this, L1Activity.class));
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
-        l2.setOnClickListener(new View.OnClickListener() {
+        binding.learn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sound.playClickSound();
                 startActivity(new Intent(LearningActivity.this, L2Activity.class));
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
@@ -68,6 +78,7 @@ public class LearningActivity extends AppCompatActivity {
     }
     private void init()
     {
+        sound=new Sound(LearningActivity.this);
         backBtn=findViewById(R.id.back_btn);
         l1=findViewById(R.id.l1);
         l2=findViewById(R.id.l2);

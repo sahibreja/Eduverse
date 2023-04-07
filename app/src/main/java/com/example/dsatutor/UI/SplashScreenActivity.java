@@ -78,7 +78,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void init()
     {
         //view=findViewById(R.id.video);
-
         auth = FirebaseAuth.getInstance();
         prefManager= new PrefManager(SplashScreenActivity.this,"Game");
 

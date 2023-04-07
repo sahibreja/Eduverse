@@ -6,8 +6,6 @@ import androidx.room.Room;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -18,28 +16,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.example.dsatutor.Database.GameDatabase;
 import com.example.dsatutor.MainActivity;
 import com.example.dsatutor.Model.DAO.UsersDao;
 import com.example.dsatutor.Model.PrefManager;
-import com.example.dsatutor.Model.Users;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
-import com.example.dsatutor.UI.SplashScreenActivity;
 import com.example.dsatutor.UI.start.Intro.IntroVideoActivity;
-import com.example.dsatutor.UI.start.LandingPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email;
@@ -61,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private String userName;
     private String userId;
     private PrefManager prefManager;
+    private Sound sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 heartTouchEffect(v);
+                sound.playClickOnButtonSound();
                 startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
@@ -89,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 heartTouchEffect(v);
+                sound.playClickOnButtonSound();
                 String userEmail = email.getText().toString().trim();
                 String userPassword = pass.getText().toString();
                 if(userEmail.isEmpty())
@@ -110,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                     finishAffinity();
-
                             }else
                             {
                                 Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -125,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 heartTouchEffect(v);
+                sound.playClickOnButtonSound();
                 String emailTxt=email.getText().toString().trim();
                 if(emailTxt.isEmpty())
                 {
@@ -166,6 +160,8 @@ public class LoginActivity extends AppCompatActivity {
         gameDatabase= Room.databaseBuilder(LoginActivity.this,
                 GameDatabase.class, "game_database").allowMainThreadQueries().build();
         usersDao= gameDatabase.userDao();
+
+        sound=new Sound(LoginActivity.this);
     }
     private void heartTouchEffect(View view)
     {

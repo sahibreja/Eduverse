@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dsatutor.Model.Learning.Chapter;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Sound sound = new Sound(context);
         ((FileLayoutHolder)holder).chapterName.setText(chapters.get(position).getChapterName());
         Chapter chapter=chapters.get(position);
 
@@ -55,7 +57,13 @@ public class ChapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //to play the sound
+                sound.playClickOnButtonSound();
+
+
                 selectedItemPosition = holder.getAdapterPosition();
+
+                //call the recycler view
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);

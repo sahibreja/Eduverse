@@ -2,58 +2,40 @@ package com.example.dsatutor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.example.dsatutor.Adapter.LeaderBoardAdapter;
 import com.example.dsatutor.Adapter.LevelAdapter;
 import com.example.dsatutor.Database.GameDatabase;
-import com.example.dsatutor.Model.Algorithm.Check;
-import com.example.dsatutor.Model.Compare;
 import com.example.dsatutor.Model.DAO.UsersDao;
 import com.example.dsatutor.Model.Game;
-import com.example.dsatutor.Model.Level;
+import com.example.dsatutor.Model.ModelClass.Level;
 import com.example.dsatutor.Model.Levels.LevelCreate;
 import com.example.dsatutor.Model.PrefManager;
-import com.example.dsatutor.Model.Users;
+import com.example.dsatutor.Model.Sound;
+import com.example.dsatutor.Model.ModelClass.Users;
 import com.example.dsatutor.UI.Dashboard.LearningActivity;
-import com.example.dsatutor.UI.Game.QuizActivity;
-import com.example.dsatutor.UI.Level.Level1Activity;
+import com.example.dsatutor.UI.Dashboard.Setting.AboutActivity;
+import com.example.dsatutor.UI.Dashboard.Setting.HelpActivity;
 import com.example.dsatutor.UI.start.authentication.LoginActivity;
-import com.example.dsatutor.UI.start.authentication.SignUpActivity;
 import com.example.dsatutor.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -63,13 +45,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private android.widget.Button musicBtn,soundBtn,aboutBtn,helpBtn,logOutBtn;
-    private ScrollView scrollView;
     private RelativeLayout height,touchOutside1,touchOutSide2;
     private int currentApiVersion;
     private ImageView back_btn,i_btn;
@@ -100,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<LevelCreate> levelCreates;
     private LevelAdapter levelAdapter;
     private RecyclerView recyclerView;
+    private Sound sound;
+    private MediaPlayer soundEffect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //set all value to view
     @SuppressLint({"UseCompatLoadingForDrawables", "NotifyDataSetChanged"})
     private void setValueToView() {
 
@@ -178,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    //Create the level multiple of 6 and show background as well of level
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addLevelDetails() {
 
@@ -190,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
         levelCreates.add(new LevelCreate(6,getDrawable(R.drawable.bg_dashboard4)));
         levelCreates.add(new LevelCreate(7,getDrawable(R.drawable.bg_dashboard3)));
     }
+
+    //get total score of user
     private int getTotalScore() {
         int totalScores=0;
         for (int i=0;i<levelArrayList.size();i++)
@@ -198,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return totalScores;
     }
+
+    //get total progress of user
     private float getTotalProgress() {
         float totalScores=0;
         for (int i=0;i<levelArrayList.size();i++)
@@ -208,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
         return totalScores;
     }
 
+    //show the lives of user
     private void LivesShow(int lives,long lastRefillTime) {
         if(lives>0)
         {
@@ -219,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //get data from firebase database
     private void getValueFromFirebase() {
 
         firebaseDatabase.getReference().addValueEventListener(new ValueEventListener() {
@@ -260,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //retrieve data from firebase database in background
     private class BackgroundLoading extends AsyncTask<Void,Void,Integer>{
 
         @Override
@@ -275,18 +265,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    //click on button method
     private void ButtonClick() {
 
+        //heart icon click to show animation like heart beat
         binding.heartIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playHeartSound();
             }
         });
+
+        //back button click functionality
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 AlertDialog alertbox = new AlertDialog.Builder(MainActivity.this)
                         .setMessage("Do you want to leave this universe?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -311,20 +308,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //i button click functionality
         i_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 startActivity(new Intent(MainActivity.this, LearningActivity.class));
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 //startActivity(new Intent(MainActivity.this,Level1Activity.class));
             }
         });
 
+
+        //leaderboard click functionality
         binding.leaderBoardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 if(binding.leaderboardLayout.getVisibility()==View.GONE)
                 {
                     binding.leaderboardLayout.setVisibility(View.VISIBLE);
@@ -340,10 +342,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // setting button click functionality
         binding.settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 if(binding.settingLayout.getVisibility()==View.GONE)
                 {
                    // YoYo.with(Techniques.SlideInDown).duration(900).playOn(binding.settingLayout);
@@ -366,12 +370,15 @@ public class MainActivity extends AppCompatActivity {
         leaderBoardFunction();
     }
 
+    //leaderboard functionality
     private void leaderBoardFunction() {
 
 
         View view=findViewById(R.id.leaderboard);
         RecyclerView recyclerView =view.findViewById(R.id.recycler);
         RelativeLayout touchLayout=view.findViewById(R.id.layout2);
+
+        //if leader board is open the it will disappear when user click outside of the leaderboard
         touchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -383,8 +390,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -394,14 +399,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerView.setNestedScrollingEnabled(true);
 
+        //creating the object of leaderboard adapter
         leaderBoardAdapter = new LeaderBoardAdapter(this,usersArrayList,auth);
 
+        //setting adapter to recycler view
         recyclerView.setAdapter(leaderBoardAdapter);
         recyclerView.scrollToPosition(0);
         leaderBoardAdapter.notifyDataSetChanged();
     }
 
+    //setting layout functionality
     private void settingLayoutButtonClick() {
+
+        //if setting layout is open then it will go when user will click on outside of setting layout
         touchOutside1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -413,6 +423,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //if setting layout is open then it will go when user will click on outside of setting layout
         touchOutSide2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -425,28 +437,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //click on music button
         musicBtn.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
                    heartTouchEffect(view);
+                   sound.playClickSound();
                    if(prefManager.isMusicActive())
                    {
                       musicBtn.setBackground(getDrawable(R.drawable.music_no));
                       prefManager.setMusicActive(false);
+                      sound.stopDashBoardSound();
                    }else
                    {
                        musicBtn.setBackground(getDrawable(R.drawable.music_yes));
                        prefManager.setMusicActive(true);
+                       sound.playDashBoardSound();
                    }
+
+
                }
            });
 
+        //click on sound button
         soundBtn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
-
+                sound.playClickSound();
                 if(prefManager.isSoundActive())
                 {
                     soundBtn.setBackground(getDrawable(R.drawable.sound_no));
@@ -455,30 +474,40 @@ public class MainActivity extends AppCompatActivity {
                 {
                     soundBtn.setBackground(getDrawable(R.drawable.sound_yes));
                     prefManager.setSoundActive(true);
+
                 }
+
             }
         });
 
+        //click on about button
         aboutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 
+        //click on help button
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
-
+                sound.playClickSound();
+                startActivity(new Intent(MainActivity.this, HelpActivity.class));
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 
+        //click on logout button
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
-
+                sound.playClickSound();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setCancelable(false);
                 builder.setMessage("Are you sure you want to logout?");
@@ -508,11 +537,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //set animation when user click on any button
     private void heartTouchEffect(View view) {
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale);
         view.startAnimation(anim);
     }
 
+    //initialization
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
         recyclerView=findViewById(R.id.recycler);
@@ -534,11 +565,14 @@ public class MainActivity extends AppCompatActivity {
         logOutBtn=view.findViewById(R.id.logout_btn);
         touchOutside1=view.findViewById(R.id.touch_outside);
         touchOutSide2=view.findViewById(R.id.touch_outside1);
+        sound=new Sound(MainActivity.this);
         if(prefManager.isMusicActive())
         {
             musicBtn.setBackground(getDrawable(R.drawable.music_yes));
+            sound.playDashBoardSound();
         }else {
             musicBtn.setBackground(getDrawable(R.drawable.music_no));
+            sound.stopDashBoardSound();
         }
 
         if(prefManager.isSoundActive())
@@ -548,7 +582,11 @@ public class MainActivity extends AppCompatActivity {
             soundBtn.setBackground(getDrawable(R.drawable.sound_no));
         }
 
+
+
     }
+
+    //set screen type as full screen
     private void setScreenType() {
         currentApiVersion = android.os.Build.VERSION.SDK_INT;
 
@@ -633,5 +671,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sound.onPause();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sound.onResume();
+    }
 }

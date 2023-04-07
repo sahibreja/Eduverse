@@ -18,6 +18,7 @@ import com.example.dsatutor.Adapter.LeaderBoardAdapter;
 import com.example.dsatutor.MainActivity;
 import com.example.dsatutor.Model.Learning.Chapter;
 import com.example.dsatutor.Model.Learning.SubChapter;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
 import com.example.dsatutor.databinding.ActivityL1Binding;
 
@@ -29,6 +30,7 @@ public class L1Activity extends AppCompatActivity {
     private ArrayList<SubChapter> subChapters1,subChapters2;
     private ArrayList<Chapter> chapters;
     private ActivityL1Binding binding;
+    private Sound sound;
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class L1Activity extends AppCompatActivity {
         setScreenType();
         binding=ActivityL1Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        sound= new Sound(L1Activity.this);
         addChapter();
         ButtonClick();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -60,6 +63,7 @@ public class L1Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 startActivity(new Intent(L1Activity.this, MainActivity.class));
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 finishAffinity();
@@ -70,6 +74,7 @@ public class L1Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 finish();
             }

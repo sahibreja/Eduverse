@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Dashboard.Setting.AboutActivity">
+
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/about_us_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aclonica"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="ABOUT US"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/about_us_txt"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#CDEFEC"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginRight="3dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/anton"
+                            android:text="Mission"
+                            android:textSize="18sp" />
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="none">
+
+                            <TextView
+                                android:id="@+id/mission_txt_list"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="@string/mission_txt" />
+                        </ScrollView>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#FDF7BE"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginLeft="3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/anton"
+                            android:text="Vision"
+                            android:textSize="18sp" />
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="none">
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="@string/vision_txt"/>
+                        </ScrollView>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            >
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#FAE2E2"
+                android:layout_marginBottom="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="10dp">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/baseline_square_24"
+                                    android:text="Software architect"
+                                    android:drawablePadding="10dp"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/anton"
+                                    android:textColor="@color/black"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Makes high-level design choices and frames technical standards. Also plays a role of a UI/UX designer"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/baseline_square_24"
+                                    android:text="Developer"
+                                    android:drawablePadding="10dp"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/anton"
+                                    android:textColor="@color/black"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Producing clean, efficient code based on specifications.Also plays a role of a back-end and front-end developer."/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/baseline_square_24"
+                                    android:text="Content designer"
+                                    android:drawablePadding="10dp"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/anton"
+                                    android:textColor="@color/black"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Organized all the content and keep a support to the back_end development."/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginBottom="10dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/baseline_square_24"
+                                    android:text="Content Supporter"
+                                    android:drawablePadding="10dp"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/anton"
+                                    android:textColor="@color/black"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Plays main role of a bug finder also keep support to the content domain"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </ScrollView>
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:weightSum="2"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
+                                <LinearLayout
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:weightSum="7"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_weight="1"
+                                    >
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/image1"
+                                        android:layout_width="55dp"
+                                        android:layout_height="55dp"
+                                        android:src="@drawable/sahib"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center_horizontal"/>
+                                    <TextView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Sahib Reja"
+                                        android:textColor="@color/black"
+                                        android:layout_weight="3"
+                                        android:fontFamily="@font/anton"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Developer"
+                                        android:layout_weight="3"
+                                        android:layout_gravity="center_horizontal"
+                                        android:fontFamily="sans-serif-medium"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:weightSum="7"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_weight="1"
+                                    >
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:layout_width="55dp"
+                                        android:layout_height="55dp"
+                                        android:src="@drawable/prajjwal"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center_horizontal"/>
+                                    <TextView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Prajjwal Das"
+                                        android:textColor="@color/black"
+                                        android:layout_weight="3"
+                                        android:fontFamily="@font/anton"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Software architect"
+                                        android:layout_weight="3"
+                                        android:layout_gravity="center_horizontal"
+                                        android:fontFamily="sans-serif-medium"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:weightSum="7"
+                                    android:layout_marginLeft="5dp"
+                                    >
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:layout_width="55dp"
+                                        android:layout_height="55dp"
+                                        android:src="@drawable/payal"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center_horizontal"/>
+                                    <TextView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Payal Kumari"
+                                        android:textColor="@color/black"
+                                        android:layout_weight="3"
+                                        android:fontFamily="@font/anton"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Content Designer"
+                                        android:maxLines="1"
+                                        android:layout_weight="3"
+                                        android:layout_gravity="center_horizontal"
+                                        android:fontFamily="sans-serif-medium"/>
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="3dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal"
+                                >
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:weightSum="7"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    >
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:layout_width="55dp"
+                                        android:layout_height="55dp"
+                                        android:src="@drawable/iqbal"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center_horizontal"/>
+                                    <TextView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Iqbal Alam"
+                                        android:textColor="@color/black"
+                                        android:layout_weight="3"
+                                        android:fontFamily="@font/anton"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Content Supporter"
+                                        android:layout_weight="3"
+                                        android:layout_gravity="center_horizontal"
+                                        android:fontFamily="sans-serif-medium"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:weightSum="7"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    >
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:layout_width="55dp"
+                                        android:layout_height="55dp"
+                                        android:src="@drawable/diya"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center_horizontal"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Deyasini Manna"
+                                        android:textColor="@color/black"
+                                        android:layout_weight="3"
+                                        android:fontFamily="@font/anton"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Content Supporter"
+                                        android:layout_weight="3"
+                                        android:layout_gravity="center_horizontal"
+                                        android:fontFamily="sans-serif-medium"/>
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </ScrollView>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/our_team_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aclonica"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Our Team"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:rotationY="180"
+        android:src="@drawable/exitb_btn_bg"
+        />
+
+
+</RelativeLayout>

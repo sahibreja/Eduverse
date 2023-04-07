@@ -38,11 +38,24 @@
 
             <ImageView
                 android:id="@+id/power"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/lives"
-                android:src="@drawable/lightbulb_of" />
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/lives"
+                android:src="@drawable/lightbulb_on"
+                android:layout_marginTop="-5dp"/>
+
+            <TextView
+                android:id="@+id/power_txt"
+                android:layout_width="40dp"
+                android:layout_height="38dp"
+                android:layout_toEndOf="@id/lives"
+                android:text="0"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/black"
+                android:textAlignment="viewEnd"
+                android:fontFamily="@font/anton"
+                android:layout_marginTop="2dp"/>
 
             <ProgressBar
                 android:id="@+id/step_progress_bar"
@@ -50,9 +63,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/power"
+                android:layout_toEndOf="@id/power"
                 android:progressDrawable="@drawable/custom_progress_bar" />
 
 

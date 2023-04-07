@@ -2,60 +2,33 @@ package com.example.dsatutor.UI.start.Intro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.dsatutor.Adapter.PreRequisiteAdapter;
 import com.example.dsatutor.MainActivity;
-import com.example.dsatutor.Model.PreRequisiteQuestion;
+import com.example.dsatutor.Model.ModelClass.PreRequisiteQuestion;
 import com.example.dsatutor.Model.PrefManager;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
-import com.example.dsatutor.UI.Fragment.PreReqQuesFragment;
-import com.example.dsatutor.UI.SplashScreenActivity;
-import com.example.dsatutor.UI.start.authentication.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 public class IntroVideoActivity extends AppCompatActivity {
     private int currentApiVersion;
@@ -65,21 +38,16 @@ public class IntroVideoActivity extends AppCompatActivity {
     private SurfaceView surfaceView;
     private MediaPlayer mediaPlayer;
     boolean isPlay = true;
-
     private ArrayList<PreRequisiteQuestion> questionArrayList;
     private int index = 0;
     int correctAnswers = 0;
     private PreRequisiteQuestion questions;
-
     private TextView question_text, option_1_txt, option_2_txt, option_3_txt, option_4_txt;
     private Button nextButton, previousButton, goBtn;
     private boolean isClicked = false, isFinish = false;
-
     private ProgressBar progressBar;
-
     private PrefManager prefManager;
-
-
+    private Sound sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,10 +93,12 @@ public class IntroVideoActivity extends AppCompatActivity {
             public void run() {
                 mediaPlayer.pause();
                 popup_layout.setVisibility(View.VISIBLE);
+                sound.playPopupSound();
                 YoYo.with(Techniques.FadeIn).duration(1000).playOn(goBtn);
                 goBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        sound.playClickSound();
                         YoYo.with(Techniques.FadeOut).duration(1000).playOn(goBtn);
                         popup_layout.setVisibility(View.GONE);
                         frameLayout.setVisibility(View.VISIBLE);
@@ -143,8 +113,6 @@ public class IntroVideoActivity extends AppCompatActivity {
 
 
     }
-
-
     private void init() {
         surfaceView = findViewById(R.id.video_view);
         mediaPlayer = MediaPlayer.create(this, R.raw.prerequisite_video);
@@ -164,25 +132,8 @@ public class IntroVideoActivity extends AppCompatActivity {
         negative_layout = findViewById(R.id.negative_layout);
         progressBar = findViewById(R.id.progressBar);
 
+        sound = new Sound(IntroVideoActivity.this);
 
-    }
-
-    private void loadingScreen() {
-        VideoView view1 = (VideoView) findViewById(R.id.vide_view1);
-        view1.setVisibility(View.VISIBLE);
-        String path1 = "android.resource://" + getPackageName() + "/" + R.raw.loading_anim;
-        view1.setVideoURI(Uri.parse(path1));
-        view1.start();
-        view1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                YoYo.with(Techniques.FadeOut).duration(100).playOn(surfaceView);
-                surfaceView.setVisibility(View.GONE);
-                startActivity(new Intent(IntroVideoActivity.this, MainActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
-            }
-        });
     }
 
     private void ButtonClick() {
@@ -232,6 +183,7 @@ public class IntroVideoActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sound.playClickOnButtonSound();
                 reset();
                 if (index < questionArrayList.size()) {
                     progressBar.setProgress(index + 1);
@@ -249,12 +201,14 @@ public class IntroVideoActivity extends AppCompatActivity {
                     progressBar.setProgress(index);
                     float per = (correctAnswers / (float) questionArrayList.size()) * 100;
                     if (per > 50) {
-
+                        sound.playExcellentSound();
                         positive_layout.setVisibility(View.VISIBLE);
+
                         Button ps_ok_btn = findViewById(R.id.ps_ok_btn);
                         ps_ok_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                sound.playClickSound();
                                 prefManager.setFirstTimeLaunch(false);
                                 startActivity(new Intent(IntroVideoActivity.this, MainActivity.class));
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -263,12 +217,14 @@ public class IntroVideoActivity extends AppCompatActivity {
                             }
                         });
                     } else {
+                        sound.playBadResultSound();
                         negative_layout.setVisibility(View.VISIBLE);
                         Button ps_no_btn = findViewById(R.id.ps_no_btn);
 
                         ps_no_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                sound.playClickSound();
                                 prefManager.setFirstTimeLaunch(false);
                                 startActivity(new Intent(IntroVideoActivity.this, MainActivity.class));
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -375,10 +331,12 @@ public class IntroVideoActivity extends AppCompatActivity {
     private void checkAnswer(TextView selected) {
         String selectedAnswer = selected.getText().toString();
         if (selectedAnswer.equals(questions.getAnswer())) {
+            sound.playCorrectAnswerSound();
             correctAnswers++;
             selected.setBackground(getResources().getDrawable(R.drawable.pre_req_que_opt_selected_bg));
         } else {
             showAnswer();
+            sound.playWrongAnswerSound();
             selected.setBackground(getResources().getDrawable(R.drawable.pre_req_wrong_opt));
         }
     }

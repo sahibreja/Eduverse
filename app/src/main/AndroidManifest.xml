@@ -7,7 +7,7 @@
 
     <queries>
         <intent>
-            <action android:name="com.google.android.youtube.api.service.START"/>
+            <action android:name="com.google.android.youtube.api.service.START" />
         </intent>
     </queries>
 
@@ -22,15 +22,23 @@
         android:theme="@style/Theme.DSATutor"
         tools:targetApi="31">
         <activity
-            android:name=".UI.Dashboard.Learning.YoutubeActivity"
+            android:name=".UI.Dashboard.Setting.HelpActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"/>
         <activity
-            android:name=".UI.Game.QuizActivity"
+            android:name=".UI.Dashboard.Setting.AboutActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".UI.Level.Level1Activity"
+            android:name=".UI.Dashboard.Learning.WebViewActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".UI.Dashboard.Learning.YoutubeActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".UI.Game.QuizActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape" />
         <activity
@@ -61,13 +69,6 @@
             android:name=".UI.start.authentication.LoginActivity"
             android:exported="true"
             android:screenOrientation="sensorLandscape">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".UI.start.LandingPageActivity"
-            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

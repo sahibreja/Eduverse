@@ -1,7 +1,7 @@
 package com.example.dsatutor.Model.Questions;
 
 import com.example.dsatutor.Model.DAO.QuizQuestionDao;
-import com.example.dsatutor.Model.QuizQuestion;
+import com.example.dsatutor.Model.ModelClass.QuizQuestion;
 
 import java.util.ArrayList;
 import java.util.List;

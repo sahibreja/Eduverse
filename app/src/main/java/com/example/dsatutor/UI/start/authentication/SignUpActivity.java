@@ -8,7 +8,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -19,13 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dsatutor.Database.GameDatabase;
-import com.example.dsatutor.MainActivity;
-import com.example.dsatutor.Model.DAO.UsersDao;
-import com.example.dsatutor.Model.User;
-import com.example.dsatutor.Model.Users;
+import com.example.dsatutor.Model.Sound;
+import com.example.dsatutor.Model.ModelClass.Users;
 import com.example.dsatutor.R;
 import com.example.dsatutor.UI.start.Intro.IntroVideoActivity;
-import com.example.dsatutor.UI.start.LandingPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -45,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private GameDatabase gameDatabase;
+    private Sound sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 heartTouchEffect(v);
+                sound.playClickOnButtonSound();
                 startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finishAffinity();
@@ -75,6 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 heartTouchEffect(v);
+                sound.playClickOnButtonSound();
                 String  userName = name.getText().toString();
                 String  userEmail = email.getText().toString();
                 String  userPass = pass.getText().toString();
@@ -140,5 +139,6 @@ public class SignUpActivity extends AppCompatActivity {
         gameDatabase= Room.databaseBuilder(SignUpActivity.this,
                 GameDatabase.class, "game_database").allowMainThreadQueries().build();
 
+        sound= new Sound(SignUpActivity.this);
     }
 }

@@ -8,39 +8,27 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.transition.Scene;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.example.dsatutor.Database.GameDatabase;
 import com.example.dsatutor.MainActivity;
 import com.example.dsatutor.Model.DAO.QuizQuestionDao;
 import com.example.dsatutor.Model.DAO.UsersDao;
-import com.example.dsatutor.Model.Level;
+import com.example.dsatutor.Model.ModelClass.Level;
 import com.example.dsatutor.Model.PrefManager;
 import com.example.dsatutor.Model.Questions.PreInsertedQuizQuestion;
-import com.example.dsatutor.Model.QuizQuestion;
-import com.example.dsatutor.Model.Users;
+import com.example.dsatutor.Model.ModelClass.QuizQuestion;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
-import com.example.dsatutor.UI.Level.Level1Activity;
-import com.example.dsatutor.UI.start.Intro.IntroVideoActivity;
-import com.example.dsatutor.UI.start.authentication.LoginActivity;
 import com.example.dsatutor.databinding.ActivityQuizBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,7 +49,6 @@ import me.samlss.bloom.effector.BloomEffector;
 public class QuizActivity extends AppCompatActivity {
     private ActivityQuizBinding binding;
     private int currentApiVersion;
-    int step = 0;
     private int lives;
     private FirebaseAuth auth;
     private GameDatabase gameDatabase;
@@ -71,29 +58,19 @@ public class QuizActivity extends AppCompatActivity {
     private List<QuizQuestion> quizQuestionArrayList;
     private QuizQuestion question;
     private int getLevel;
-
     private int currentLevel;
     private int index = 0;
     private int correctAnswers = 0;
     private boolean isClicked = false, isFinish = false;
-
     private CountDownTimer timer;
-
     private int countForPower=0;
     private int power=0;
-
     private int score=0;
-    private VideoView view1 ;
-
-    private static boolean isFirstTimeLaunch=true;
     private Level level;
-
     private PrefManager prefManager;
     private boolean isPowerUsing=false;
-
     private int noOfPowerUsed=0;
-
-
+    private Sound sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,19 +92,10 @@ public class QuizActivity extends AppCompatActivity {
     //Click On Button Method
     private void ButtonClick() {
 
+        //click on first option
         binding.option1Txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                lives--;
-//                database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("remainingLive").setValue(lives);
-//                if(lives==0)
-//                {
-//                    //prefManager.setWaitTime(System.currentTimeMillis());
-//                    database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("remainingTime").setValue(System.currentTimeMillis());
-//                }
-//                startActivity(new Intent(QuizActivity.this, MainActivity.class));
-//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                finishAffinity();
                 if (!isClicked && !isFinish) {
                     if(timer!=null)
                         timer.cancel();
@@ -144,6 +112,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        //click on second option
         binding.option2Txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +132,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        //click on third option
         binding.option3Txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +152,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        //click on fourth option
         binding.option4Txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -202,6 +173,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        //click on next button
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,29 +195,16 @@ public class QuizActivity extends AppCompatActivity {
                     binding.stepProgressBar.setProgress(index);
                     float per = (correctAnswers / (float) quizQuestionArrayList.size()) * 100;
                     resultLayout(correctAnswers);
-//                    if (per >= 50) {
-//
-//                        Toast.makeText(QuizActivity.this, "Good", Toast.LENGTH_SHORT).show();
-//                        resultLayout(correctAnswers);
-//
-//                    } else {
-//                        lives--;
-//                        database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("remainingLive").setValue(lives);
-//                        if (lives == 0) {
-//                            //prefManager.setWaitTime(System.currentTimeMillis());
-//                            database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("remainingTime").setValue(System.currentTimeMillis());
-//                        }
-//                        resultLayout(correctAnswers);
-//
-//                    }
                 }
             }
         });
 
+        //click on home button
         binding.homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizActivity.this);
                 builder.setCancelable(false);
                 builder.setMessage("Are you sure to leave?");
@@ -253,7 +212,7 @@ public class QuizActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //if user pressed "yes", then he is allowed to exit from application
-                        isFirstTimeLaunch=true;
+
                         lives--;
                         database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("remainingLive").setValue(lives).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -304,6 +263,7 @@ public class QuizActivity extends AppCompatActivity {
         float per = (marks / (float) quizQuestionArrayList.size()) * 100;
         binding.scoreTxt.setText(String.valueOf(score));
         if(per>=50) {
+            sound.playLevelPassed();
             binding.resultLayout.setVisibility(View.VISIBLE);
             if(per<70)
             {
@@ -326,6 +286,7 @@ public class QuizActivity extends AppCompatActivity {
 
         }else
         {
+            sound.playLevelFailed();
             binding.completedView.setBackground(getResources().getDrawable(R.drawable.red));
             binding.completedViewTxt.setImageDrawable(getResources().getDrawable(R.drawable.once_more_txt));
             binding.replayBtn.setVisibility(View.GONE);
@@ -360,6 +321,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickSound();
                 if(lives>0)
                 {
                     Intent intent = new Intent(QuizActivity.this,QuizActivity.class);
@@ -388,7 +350,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
-
+                sound.playClickSound();
                 if(per>=50)
                 {
                     Intent intent = new Intent(QuizActivity.this,QuizActivity.class);
@@ -428,7 +390,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
-                isFirstTimeLaunch=true;
+                sound.playClickSound();
                 startActivity(new Intent(QuizActivity.this,MainActivity.class));
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 finishAffinity();
@@ -513,6 +475,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean checkAnswer(TextView selected) {
         String selectedAnswer = selected.getText().toString();
         if (selectedAnswer.equals(question.getAnswer())) {
+            sound.playCorrectQuizAnswerSound();
             countForPower++;
             correctAnswers++;
             int i= Integer.parseInt(question.getQuestion_level());
@@ -520,6 +483,7 @@ public class QuizActivity extends AppCompatActivity {
             selected.setVisibility(View.VISIBLE);
             return true;
         } else {
+            sound.playWrongQuizAnswerSound();
             countForPower=0;
             anim(selected);
            selected.setVisibility(View.INVISIBLE);
@@ -586,10 +550,10 @@ public class QuizActivity extends AppCompatActivity {
         binding.option4Txt.setVisibility(View.VISIBLE);
         if(power>=1)
         {
-            binding.power.setBackground(getDrawable(R.drawable.lightbulb_on));
+            binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_of));
         }else
         {
-            binding.power.setBackground(getDrawable(R.drawable.lightbulb_of));
+            binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_of));
         }
 
     }
@@ -638,6 +602,8 @@ public class QuizActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         prefManager= new PrefManager(this,"Game");
+        sound= new Sound(QuizActivity.this);
+        sound.playQuizBackgroundMusic();
         database.getReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -673,17 +639,18 @@ public class QuizActivity extends AppCompatActivity {
         if(countForPower==5)
         {
             power++;
+            sound.playGetPowerSound();
             database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("power").setValue(power);
             countForPower=0;
         }
         if(power>=1)
         {
-            binding.power.setBackground(getDrawable(R.drawable.lightbulb_on));
+            binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_on));
 
         }else {
-            binding.power.setBackground(getDrawable(R.drawable.lightbulb_of));
+            binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_of));
         }
-
+        binding.powerTxt.setText(String.valueOf(power));
         binding.power.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -695,7 +662,7 @@ public class QuizActivity extends AppCompatActivity {
                     database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("power").setValue(power);
                     if(power<1)
                     {
-                        binding.power.setBackground(getDrawable(R.drawable.lightbulb_of));
+                        binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_of));
                     }
                     setTwoOption();
                 }
@@ -724,10 +691,10 @@ public class QuizActivity extends AppCompatActivity {
 
         if(power>=1)
         {
-            binding.power.setBackground(getDrawable(R.drawable.lightbulb_on));
+            binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_on));
 
         }else {
-            binding.power.setBackground(getDrawable(R.drawable.lightbulb_of));
+            binding.power.setImageDrawable(getDrawable(R.drawable.lightbulb_of));
         }
         setPower();
     }
@@ -792,7 +759,6 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //if user pressed "yes", then he is allowed to exit from application
-                isFirstTimeLaunch=true;
                 lives--;
                 database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("remainingLive").setValue(lives).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -838,5 +804,6 @@ public class QuizActivity extends AppCompatActivity {
     protected void onDestroy() {
         timer.cancel();
         super.onDestroy();
+        sound.quizOnDestroy();
     }
 }

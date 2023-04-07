@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dsatutor.Model.Learning.SubChapter;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
+import com.example.dsatutor.UI.Dashboard.Learning.WebViewActivity;
 import com.example.dsatutor.UI.Dashboard.Learning.YoutubeActivity;
 
 import java.util.ArrayList;
@@ -40,9 +42,14 @@ public class SubChapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ((FileLayoutHolder)holder).subchapterName.setText(subChapters.get(position).getSubChapterName());
         ((FileLayoutHolder)holder).levelName.setText(subChapters.get(position).getLevelName());
         SubChapter subChapter=subChapters.get(position);
+        Sound sound= new Sound(context);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //to play the sound
+                sound.playClickOnButtonSound();
+
+                //calling Youtube activity for video
                 Intent intent = new Intent(context, YoutubeActivity.class);
                 intent.putExtra("videoId",subChapter.getVideoId());
                 activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);

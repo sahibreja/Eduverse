@@ -1,6 +1,5 @@
 package com.example.dsatutor.Adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,21 +17,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dsatutor.MainActivity;
-import com.example.dsatutor.Model.Level;
+import com.example.dsatutor.Model.ModelClass.Level;
 import com.example.dsatutor.Model.Levels.LevelCreate;
+import com.example.dsatutor.Model.Sound;
 import com.example.dsatutor.R;
 import com.example.dsatutor.UI.Game.QuizActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
+    private Sound sound;
     private Activity activity;
     private ArrayList<LevelCreate> levelCreateArrayList;
 
@@ -44,6 +39,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private int lives;
     private int currentLevel;
+    private Animation floatAnimation,floatAnimation1,floatAnimation2;
     private ArrayList<Level> levelArrayList=new ArrayList<>();
 
     public LevelAdapter(Context context, ArrayList<LevelCreate> levelCreateArrayList) {
@@ -65,16 +61,13 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.level_layout,parent,false);
+
         return new FileLayoutHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        if(getItemViewType(position)==0) {
-
-               // Set the LayoutParams on the layout
-        }
+        sound= new Sound(context);
         ((FileLayoutHolder)holder).background.setImageDrawable(levelCreateArrayList.get(position).getBackground());
         ((FileLayoutHolder)holder).levelTxt1.setText(String.valueOf((position*6)+1));
         ((FileLayoutHolder)holder).levelTxt2.setText(String.valueOf((position*6)+2));
@@ -84,7 +77,8 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         ((FileLayoutHolder)holder).levelTxt6.setText(String.valueOf((position*6)+6));
          LevelClick(holder,getItemViewType(position));
         setLockView(holder,getItemViewType(position));
-        setStarsToLevel(holder, getItemViewType(position));
+        setStarsToLevel(holder,getItemViewType(position));
+        floatAnim(holder,getItemViewType(position));
 
     }
 
@@ -204,10 +198,13 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     //Function of click on level
     private void LevelClick(@NonNull RecyclerView.ViewHolder holder,int position) {
 
+
+
         ((FileLayoutHolder)holder).level1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickOnLevelSound();
                 if(lives>0 && currentLevel>=(position*6)+1)
                 {
                     Intent intent= new Intent(context, QuizActivity.class);
@@ -232,6 +229,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickOnLevelSound();
                 if(lives>0 && currentLevel>=(position*6)+2)
                 {
                     Intent intent= new Intent(context, QuizActivity.class);
@@ -256,6 +254,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickOnLevelSound();
                 if(lives>0 && currentLevel>=(position*6)+3)
                 {
                     Intent intent= new Intent(context, QuizActivity.class);
@@ -280,7 +279,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
-
+                sound.playClickOnLevelSound();
                 if(lives>0 && currentLevel>=(position*6)+4)
                 {
                     Intent intent= new Intent(context, QuizActivity.class);
@@ -305,6 +304,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickOnLevelSound();
                 if(lives>0 && currentLevel>=(position*6)+5)
                 {
                     Intent intent= new Intent(context, QuizActivity.class);
@@ -329,6 +329,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 heartTouchEffect(view);
+                sound.playClickOnLevelSound();
                 if(lives>0 && currentLevel>=(position*6)+6)
                 {
                     Intent intent= new Intent(context, QuizActivity.class);
@@ -349,6 +350,21 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             }
         });
+    }
+
+    //function to animate like a floating of anything
+    private void floatAnim(@NonNull RecyclerView.ViewHolder holder,int position){
+        floatAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.float_anim);
+        floatAnimation1 = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.float_anim1);
+        floatAnimation2 = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.float_anim2);
+
+            ((FileLayoutHolder)holder).level1.startAnimation(floatAnimation);
+            ((FileLayoutHolder)holder).level2.startAnimation(floatAnimation1);
+            ((FileLayoutHolder)holder).level3.startAnimation(floatAnimation2);
+            ((FileLayoutHolder)holder).level4.startAnimation(floatAnimation1);
+            ((FileLayoutHolder)holder).level5.startAnimation(floatAnimation);
+            ((FileLayoutHolder)holder).level6.startAnimation(floatAnimation2);
+
     }
 
     //Function of set the lock and unlock value to the levels
@@ -385,6 +401,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         }
     }
+
     @Override
     public int getItemCount() {
         return levelCreateArrayList.size();
@@ -423,6 +440,7 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         LinearLayout layout;
         public FileLayoutHolder(@NonNull View itemView) {
             super(itemView);
+
             level1=itemView.findViewById(R.id.level_1);
             level2=itemView.findViewById(R.id.level_2);
             level3=itemView.findViewById(R.id.level_3);
@@ -463,6 +481,34 @@ public class LevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             background=itemView.findViewById(R.id.background);
 
             layout=itemView.findViewById(R.id.v);
+
+
+
         }
+
+
+
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ((FileLayoutHolder)holder).level1.startAnimation(floatAnimation);
+        ((FileLayoutHolder)holder).level2.startAnimation(floatAnimation1);
+        ((FileLayoutHolder)holder).level3.startAnimation(floatAnimation2);
+        ((FileLayoutHolder)holder).level4.startAnimation(floatAnimation1);
+        ((FileLayoutHolder)holder).level5.startAnimation(floatAnimation);
+        ((FileLayoutHolder)holder).level6.startAnimation(floatAnimation2);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        ((FileLayoutHolder)holder).level1.clearAnimation();
+        ((FileLayoutHolder)holder).level2.clearAnimation();
+        ((FileLayoutHolder)holder).level3.clearAnimation();
+        ((FileLayoutHolder)holder).level4.clearAnimation();
+        ((FileLayoutHolder)holder).level5.clearAnimation();
+        ((FileLayoutHolder)holder).level6.clearAnimation();
     }
 }

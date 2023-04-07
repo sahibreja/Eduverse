@@ -30,14 +30,14 @@ public class Game {
     private FirebaseAuth auth;
     private boolean isUpdate=false;
 
-
+    //Initialize by constructor
     public Game(Context context,TextView timer_text_view,Activity activity) {
         this.context = context;
         this.timer_text_view = timer_text_view;
         this.activity=activity;
     }
 
-
+    // when lives is equal zero then it will start timer and showing timer on screen and also completion of timer it will refill the live
     public void startTimerAndRefillByFirebase() {
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
